@@ -230,7 +230,7 @@ function getInfo(name) {
             $('#tag').val("add");
         },
         error: function () {
-            $("#cathead").attr("src","https://nekoustc.hk.ufileos.com/cats/null.jpg");
+            $("#cathead").attr("src","https://cdn.jsdelivr.net/gh/lclichen/cdn@main/cats/null.jpg");
             $('#tag').val("new");
             //alert("异常！");
         }
@@ -341,7 +341,7 @@ $(document).ready(function () {
             $("#cathead").attr("src","https://nekoustc.hk.ufileos.com/cats/"+cname+".jpg");
             getInfo(cname);
         }else{
-            $("#cathead").attr("src","https://nekoustc.hk.ufileos.com/cats/null.jpg");
+            $("#cathead").attr("src","https://cdn.jsdelivr.net/gh/lclichen/cdn@main/cats/null.jpg");
             $('#tag').val("new");
         }
     });
