@@ -230,7 +230,7 @@ function getInfo(name) {
             $('#tag').val("add");
         },
         error: function () {
-            $("#cathead").attr("src","https://cdn.jsdelivr.net/gh/lclichen/cdn@main/cats/null.jpg");
+            $("#cathead").attr("src","https://nekoustc.hk.ufileos.com/cats/null.jpg");
             $('#tag').val("new");
             //alert("异常！");
         }
@@ -372,7 +372,7 @@ $(document).ready(function () {
 
         };
         var errorCallBack = function(res) {
-            alert("图片 "+fileRename+" 上传失败")
+            //alert("图片 "+fileRename+" 上传失败")
         };
 
         ufile.uploadFile(data, successCallBack, errorCallBack, progressCallBack);
@@ -382,9 +382,68 @@ $(document).ready(function () {
     // 普通上传
     
 
+    
+    var prefix2 = 'imgco';
+    var ufile2 =  new UCloudUFile(bucketName, bucketUrl, tokenPublicKey, tokenPrivateKey, tokenServerUrl, prefix2);
+    // uploader监听
+    $("#imguploader2").on("change", uploaderChange);
+    function uploaderChange() {
+        // 普通上传
+        var file = document.getElementById("imguploader2").files[0];
+        var fileRename = file.name;//$("#name").val()+'.jpg'; //需要修改这里哦
+        console.log(fileRename)
+        var data = {
+            file: file,
+            fileRename: fileRename
+        };
+
+        var successCallBack = function(res) {
+            alert("图片 "+fileRename+" 上传成功")
+            $.ajax({
+                //几个参数需要注意一下
+                type: "POST",//方法类型
+                dataType: "html",//预期服务器返回的数据类型
+                url: "https://api.4c43.work/imgupload.php",
+                data: {
+                    name: $("#name").val(),
+                    imgname: fileRename
+                },
+                success: function (result) {
+                    //console.log(result);//打印服务端返回的数据(调试用)
+                    if (result.resultCode == 200) {
+                        if(result == 'new'){
+                            $("#tag").val("add");
+                        }
+                    };
+                },
+                error: function () {
+                    alert("异常！");
+                }
+            });
+        };
+        var progressCallBack = function(res) {
+
+        };
+        var errorCallBack = function(res) {
+            //alert("图片 "+fileRename+" 上传失败")
+        };
+
+        ufile2.uploadFile(data, successCallBack, errorCallBack, progressCallBack);
+        $(this).remove();
+        $('<input type="file" id="imguploader2" name="imguploader2" class="form-control hide" />').on("change", uploaderChange).appendTo($("#uploaderWrap"))
+    }
+    // 普通上传
+    
+
 });
 function imgup(){
-    console.log('???')
+    console.log('触发头像上传...')
     $("#imguploader").trigger("click");
-    console.log('?')
+    console.log('已触发')
+}
+
+function imgCollectUp(){
+    console.log('触发图集上传...')
+    $("#imguploader2").trigger("click");
+    console.log('已触发')
 }
