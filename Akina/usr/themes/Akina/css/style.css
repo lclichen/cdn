@@ -1442,7 +1442,7 @@ border: 5px solid #F3F3F3;
 }
 
 h1.page-title {
-font-size: 20px;
+font-size: 16px;
 font-weight: 400;
 border: 1px dashed #ddd;
 padding: 10px 15px;
@@ -1761,8 +1761,9 @@ li.alidonate:after {
 overflow: hidden;
 width: 100%;
 margin: 55px 0;
-background: #000; }
-
+background: #000;
+border-radius: 3px;
+}
 .post-squares .background {
 position: absolute;
 z-index: 50;
@@ -1772,6 +1773,7 @@ width: 100%;
 height: 100%;
 opacity: .4;
 background-size: cover;
+background-position: center center;
 -webkit-transition: opacity 0.15s ease-out;
 -moz-transition: opacity 0.15s ease-out;
 transition: opacity 0.15s ease-out; }
@@ -2133,7 +2135,7 @@ display: inline;
 
 .page-content,
 .entry-summary {
-margin: 1.5em 0 0;
+margin: 8em 30px 0;
 }
 
 .page-links {
@@ -2809,12 +2811,12 @@ a.comment-reply-login {
 }
 
 .graybar {
-	display:none
+    display:none
 }
 
 .comments #error {
-	font-family:microsoft yahei;
-	margin-bottom:20px
+    font-family:microsoft yahei;
+    margin-bottom:20px
 }
 .notification-hidden {
     display: none;
@@ -2909,7 +2911,7 @@ overflow: hidden;
 transition: height 0s ease-out; }
 
 .comments ol.comment-list {
-margin: 0 auto 70px;
+margin: 0 auto 40px;
 font-family: microsoft yahei;}
 
 .comnav {
@@ -2939,9 +2941,6 @@ div.children ol{
     padding: 0 !important;
 }
 
-
-
-
 @media (max-width: 1080px) {
 .comments {
 padding: 0 0 6.39%;
@@ -2954,7 +2953,7 @@ padding: 0;
 list-style: none; }
 
 .comment .contents {
-margin-bottom: 40px;
+margin-bottom: 20px;
  }
 
 .comment .isauthor {
@@ -3134,7 +3133,6 @@ width:32px }
 .comment-list li ol li .comment_body {
     padding-left: 35px;
 }
-	
 
 .comment-respond {
 width: 100%;
@@ -3257,7 +3255,9 @@ color: #6F6F6F;
 font-family: microsoft yahei;
 width: 160px;
 margin: 0 auto;
-border: 1px solid #C7C7C7;  }
+border: 1px solid #C7C7C7;
+border-radius: 3px;
+}
 
 .comment-respond .logged-in-as {
 margin-bottom:20px
@@ -3377,10 +3377,6 @@ border-radius: 3px;
 float: left;
 margin-right: 10px;
 color: #A0DAD0;
-}
-
-.notice-content {
-display: inline-block;
 }
 
 /*
@@ -3610,11 +3606,27 @@ opacity: 1; }
 .search-form div {
 position: relative;
 top: -150px; }
+
+.micromb-search{
+    font-size: 23px;
+    font-weight: 600;
+    color: #737373;
+    text-align: center;
+    margin: 0 0 80px 0;
+}
+.micromb-search:before {
+    content: "#";
+    margin-right: 6px;
+    color: #ff6d6d;
+    font-size: 20px;
+    font-weight: 600;
+}
+
 .search-form i {
 font-size: 32px;
 font-size: 1.5rem;
 line-height: 1;
-color: #ddd;
+color: #9e9e9e;
 position: absolute;
 bottom: 18px;
 margin-top: -16px;
@@ -3626,6 +3638,7 @@ background: none;
 padding: 12px 24px 12px 64px;
 width: 100%;
 outline:none;
+border: 1px solid #9e9e9e;
 border-radius: 50px;
 -webkit-box-sizing: border-box;
 -moz-box-sizing: border-box;
@@ -3684,16 +3697,11 @@ color: #8C8C8C;
 margin-bottom: 80px;
 }
 .sorry li{
-padding:10px 0;
+padding:6px 0;
 }
 .sorry li a:hover{
 color: #A0DAD0;
 }
-.sorry-inner {
-padding: 20px;
-border: 1px solid #ddd;
-}
-
 
 /*
 * 404
@@ -4618,19 +4626,6 @@ width: auto;
 max-width: 860px;
 margin: 0 auto;
 }
-.wrapper section h1 {
-font-weight: 300;
-font-size: 30px;
-margin-bottom: 10px;
-}
-.wrapper section h2 {
-font-weight: 300;
-font-size: 20px;
-margin-bottom: 40px;
-}
-.wrapper section p {
-margin-bottom: 40px;
-}
 .openNav {
 transition-duration: 0.5s;
 /*transition-timing-function: swing;*/
@@ -5085,7 +5080,6 @@ pre[class*="language-"] {
 .fytx_alert_background .fytx_alert_title {
 	width:100%;
 	height:45px;
-	border-bottom:1px dashed #d9d9d9;
 	line-height:45px;
 	text-align:center
 }
@@ -5114,4 +5108,33 @@ pre[class*="language-"] {
 }
 .fytx_alert_background .fytx_alert_btn:hover{
     background-color: #DDE6EA;
+}
+/*标签云*/
+.tags-list{
+    border: none !important;
+    padding: 0 !important;
+    margin: 0 !important;
+}
+.tags-list li{
+    border: none !important;
+    float: left;
+    list-style-type: none;
+    font-size: 12px;
+    margin: 14px 14px 14px 0;
+    padding: 0 !important;
+}
+.tags-list li a{
+    text-decoration: none;
+    color: #636363;
+    border: 1px dashed #969696;
+    padding: 6px;
+    border-radius: 5px;
+}
+ .size-20, .size-30{
+    color: #ff6d6d !important;
+    border: 1px dashed #ff6d6d !important;
+}
+.tags-list li a:hover{
+    color: #ff6d6d !important;
+    border: 1px dashed #ff6d6d !important;
 }
