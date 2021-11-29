@@ -17,23 +17,31 @@ define("theprofile", authorProfile($this->options->profile,theurl));
 	<meta http-equiv="Cache-Control" content="no-transform" />
 	<meta http-equiv="Cache-Control" content="no-siteapp" />
 	<meta http-equiv="x-dns-prefetch-control" content="on" />
-	<title itemprop="name"><?php $this->archiveTitle(array('category'=>_t('分类 %s 下的文章'),'search'=>_t('包含关键字 %s 的文章'),'tag' =>_t('标签 %s 下的文章'),'author'=>_t('%s 的主页')), '', ' - '); ?><?php $this->options->title(); ?><?php if($this->is('index')): ?>-<?php $this->options->sub() ?><?php endif; ?></title>
+	<title itemprop="name"><?php $this->archiveTitle(array('category'=>_t('%s - 分类'),'search'=>_t('%s - 搜索结果'),'tag' =>_t('%s - 标签'),'author'=>_t('%s的主页')), '', ' - '); ?><?php $this->options->title(); ?><?php if($this->is('index')): ?><?php if($this->options->sub){echo ' - '.$this->options->sub;} ?><?php endif; ?></title>
 	<?php $this->header('generator=&template=&pingback=&xmlrpc=&wlw='); ?>
 	<link rel='dns-prefetch' href="<?php $this->options->DNS();?>" />
 	<?php echo '
 	<link rel="shortcut icon" href="'.theurl.'images/favicon.ico">
 	<link rel="stylesheet" href="'.theurl.'css/style.css" type="text/css" />
-	<link rel="stylesheet" href="'.theurl.'css/OwO.css" type="text/css" />
-	';?>
+	<link rel="stylesheet" href="'.theurl.'css/OwO.css" type="text/css" />';
+	if (!empty($this->options->menu) && in_array('dark', $this->options->menu)) {
+		echo '<link rel="stylesheet" href="'.theurl.'css/dark.css" type="text/css" />';
+	}
+	?>
 	<style type="text/css">
 	<?php if (!empty($this->options->menu) && in_array('show', $this->options->menu)): ?>
 		.site-top ul { opacity: 1 !important;}
 		.site-top .show-nav { display:none !important; }
 	<?php endif; ?>
 	<?php if (!empty($this->options->menu) && in_array('indexbg', $this->options->menu)): ?>
-		@media (max-width:1080px) {#centerbg {display:block;height: 500px;} }
+		@media (max-width:1080px) {#centerbg {display:block;} }
 	<?php else: ?>
 		@media (max-width:1080px) {#centerbg {display:none} }
+		@media (max-width: 860px){.notice {margin-top: 100px;} }
+	<?php endif; ?>
+	<?php if (!empty($this->options->menu) && in_array('feature', $this->options->menu)): ?>
+		#content .top-feature { display:block; }
+		.feature-content { display:flex; }
 	<?php endif; ?>
 	<?php if (!empty($this->options->menu) && in_array('page', $this->options->menu)): ?>
 	<?php else: ?>
@@ -43,6 +51,7 @@ define("theprofile", authorProfile($this->options->profile,theurl));
 		.wedonate img { margin-right:10px }
 		.cd-top { background:url(<?php echo theurl; ?>images/gotop.png) no-repeat center 50%}
 	</style>
+	<?php $this->options->cssCode();?>
 </head>
 <body class="home blog hfeed">
 <!-- 加载动画 -->
@@ -56,7 +65,7 @@ define("theprofile", authorProfile($this->options->profile,theurl));
 		</div>
 			<!-- logo则显示 -->
 			<div class="site-branding">
-			 <div class="site-title"><a href="<?php $this->options ->siteUrl(); ?>" ><img src="<?php echo theurl; ?>images/akina.png"></a></div>		  
+			 <div class="site-title"><a href="<?php $this->options ->siteUrl(); ?>" ><img src="<?php echo authorProfile($this->options->logo,theurl);?>"></a></div>		  
 			</div>
 			<!-- logo 结束 -->
 	 </div>	
@@ -66,7 +75,7 @@ define("theprofile", authorProfile($this->options->profile,theurl));
 	<div class="site-top">
 		<!-- logo则显示 -->
 		<div class="site-branding">
-		<div class="site-title"><a href="<?php $this->options ->siteUrl(); ?>" ><img src="<?php echo theurl; ?>images/akina.png"></a></div>		  
+		<div class="site-title"><a href="<?php $this->options ->siteUrl(); ?>" ><img src="<?php echo authorProfile($this->options->logo,theurl);?>"></a></div>		  
 		</div>
 		<!-- logo 结束 -->
 		<div id="login-reg">
@@ -108,7 +117,6 @@ define("theprofile", authorProfile($this->options->profile,theurl));
 				<ul class="sub-menu">
 					<?php $this->widget('Widget_Contents_Page_List')->to($pages); ?>
 					<?php while($pages->next()): ?>
-						<?php if ($pages->fields->navbar == "hide") continue; ?>
 						<li><a href="<?php $pages->permalink(); ?>"><?php $pages->title(); ?></a></li>
 					<?php endwhile; ?>
 				</ul>

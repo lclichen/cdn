@@ -4,7 +4,7 @@
  * 
  * @package Akina For Typecho
  * @author 子虚之人
- * @version 3.4.5
+ * @version 4.0.1
  * @link https://zhebk.cn/
  */
  if (!defined('__TYPECHO_ROOT_DIR__')) exit;
@@ -123,6 +123,10 @@ if($this->options->sticky){
 							if ($this->options->Bilibili){
 								echo '<li><a href="'.$this->options->Bilibili.'" target="_blank" rel="nofollow" class="social-bilibili"><img src="'.theurl.'images/bilibili.png"/></a></li>';
 							}
+							//网易云音乐
+							if ($this->options->Music){
+								echo '<li><a href="https://music.163.com/#/user/home?id='.$this->options->Music.'" target="_blank" rel="nofollow" class="social-bilibili"><img src="'.theurl.'images/music.png"/></a></li>';
+							}
 						?>
 					</div>
 				</div>
@@ -143,33 +147,35 @@ if($this->options->sticky){
 		<h1 class="fes-title">聚焦</h1>
 			<div class="feature-content">
 			<?php
-				$featureCid = explode(',', strtr($this->options->featureCids, ' ', ','));
-				for($i=0;$i<3;$i++){
+			    // 默认数据
+				$defaultUrl = ['https://zhebk.cn/Web/Akina.html','https://zhebk.cn/Web/userAkina.html','https://zhebk.cn/archives.html'];
+				$defaultTitle = ['Akina','使用说明','文章归档'];
+			    // 整理
+				$featureCid = array_filter(explode(',', strtr($this->options->featureCids, ' ', ',')));
+				// 循环输出
+				for($i=0;$i<count($featureCid);$i++){
+				    $featureNum = $i + 1;
 					$this->widget('Widget_Archive@lunbo'.$i, 'pageSize=1&type=single', 'cid='.$featureCid[$i])->to($ji);
-					$featureNum = $i + 1;
-					if($ji->permalink != ""){
-						if ($ji->fields->thumbnail){
-							$featureImg = $ji->fields->thumbnail;
-						} else {
-							if(img_postthumb($ji->content)){
-								$featureImg = img_postthumb($ji->content);
-							} else {
-								$featureImg = theurl.'images/postbg/'.$featureNum.'.jpg';
-							}
-						}
-						echo '<li class="feature-'.$featureNum.'"><a href="'.$ji->permalink.'"><div class="feature-title"><span class="foverlay">'.$ji->title.'</span></div><img src="'.$featureImg.'"></a></li>';
+                    if ($ji->fields->thumbnail){
+						$featureImg = $ji->fields->thumbnail;
 					} else {
-						$defaultUrl = ['https://zhebk.cn/Web/Akina.html','https://zhebk.cn/Web/userAkina.html','https://zhebk.cn/archives.html'];
-						$defaultTitle = ['Akina','使用说明','文章归档'];
-						echo '<li class="feature-'.$featureNum.'"><a href="'.$defaultUrl[$i].'"><div class="feature-title"><span class="foverlay">'.$defaultTitle[$i].'</span></div><img src="'.theurl.'/images/feature/feature'.$featureNum.'.jpg"></a></li>';
+						$featureImg = theurl.'images/postbg/'.$featureNum.'.jpg';
 					}
+					echo '<li class="feature-'.$featureNum.'"><a href="'.$ji->permalink.'"><div class="feature-title"><span class="foverlay">'.$ji->title.'</span></div><img src="'.$featureImg.'"></a></li>';
+					if( $featureNum == 3 ) {
+					    break;
+					}
+				}
+				for($i = count($featureCid); $i < 3; $i++) {
+				    $addNum = $i + 1;
+					echo '<li class="feature-'.$addNum.'"><a href="'.$defaultUrl[$i].'"><div class="feature-title"><span class="foverlay">'.$defaultTitle[$i].'</span></div><img src="'.theurl.'/images/feature/feature'.$addNum.'.jpg"></a></li>';
 				}
 			?>
 			</div>
 	</div>
 	<!-- 主页内容 -->
 	<div id="primary" class="content-area">
-		<main id="main" class="site-main" role="main">
+		<main id="main" class="site-main indexMain" role="main">
 		<h1 class="main-title">近况</h1>
 <!-- 结束搜索判断 -->
 <?php endif; ?>
@@ -185,7 +191,7 @@ if($this->options->sticky){
 			<div class="s-content">
 				<a href="<?php $this->permalink() ?>">
 				<p><?php $this->excerpt(70, '...'); ?></p>
-				<div class="s-time"><i class="iconfont">&#xe604;</i><?php $this->date('Y-n-j'); ?><?php if(Postviews($this)>=1000) echo"<i class='iconfont hotpost' style='margin-left: 5px;'>&#xe618;</i>" ?>
+				<div class="s-time"><i class="iconfont">&#xe604;</i><?php $this->date('Y-n-j'); ?><?php if(Postviews($this)>=2000) echo"<i class='iconfont hotpost' style='margin-left: 5px;'>&#xe618;</i>" ?>
 </div>
 				</a>
 			</div>
@@ -197,9 +203,9 @@ if($this->options->sticky){
 				</div>
 				<h1 class="entry-title"><a href="<?php $this->permalink() ?>"><?php $this->sticky(); $this->title() ?></a></h1>
 				<div class="p-time">
-				<i class="iconfont">&#xe604;</i> <?php $this->date('Y-n-j'); ?><?php if(Postviews($this)>=1000) echo"<i class='iconfont hotpost' style='margin-left: 5px;'>&#xe618;</i>" ?>
+				<i class="iconfont">&#xe604;</i> <?php $this->date('Y-n-j'); ?><?php if(Postviews($this)>=2000) echo"<i class='iconfont hotpost' style='margin-left: 5px;'>&#xe618;</i>" ?>
 				</div>
-				<p><?php $this->excerpt(70, '...'); ?></p>
+				<a href="<?php $this->permalink() ?>"><p><?php $this->excerpt(70, '...'); ?></p></a>
 				<!-- 文章下碎碎念 -->
 				<footer class="entry-footer">
 					<div class="post-more">
@@ -211,7 +217,7 @@ if($this->options->sticky){
 							<span><i class="iconfont">&#xe610;</i><a href="<?php $this->permalink() ?>"><?php $this->commentsNum(_t('NOTHING'), _t('1条评论'), _t('%d条评论')); ?></a></span>
 						</div>
 						<div class="views">
-							<span><i class="iconfont">&#xe614;</i> <?php echo Postviews($this); ?> 热度</span>
+							<span><i class="iconfont">&#xe614;</i><?php echo Postviews($this)>=10000 ? round(Postviews($this)/10000,1) .'万' : Postviews($this);?> 热度</span>
 						</div>
 					</div>
 				</footer>

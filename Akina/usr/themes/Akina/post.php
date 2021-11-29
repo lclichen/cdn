@@ -15,23 +15,39 @@
 		</div>
 <?php else: ?>
 <!-- 不是加密文章 -->
-<div class="pattern-center">
-    <div class="pattern-attachment-img" style="background-image: url(
-	<?php 
-		if (array_key_exists('thumbnail',unserialize($this->___fields())) & $this->fields->thumbnail != null){
-			$this->fields->thumbnail(); 
-		} else {
-			if(img_postthumb($this->content)){
-				echo img_postthumb($this->content);
-			}else {
-				echo theurl.'images/postbg/'.mt_rand(1,3).'.jpg';
-			} 
-		}
-	?>
-	)"></div>
-    <header class="pattern-header"><h1 class="entry-title"><?php $this->title() ?></h1></header>
-</div>
+<?php 
+    if ( $this->fields->radioPostImg != 'none' && $this->fields->radioPostImg != null ) {
+        $bgImgUrl = '';
+        switch ( $this->fields->radioPostImg ) {
+        case 'custom':
+            $bgImgUrl = $this->fields->thumbnail;
+            break;
+        case 'random':
+            $bgImgUrl = theurl.'images/postbg/'.mt_rand(1,3).'.jpg';
+            break;
+        }
+        echo('
+            <div class="pattern-center">
+                <div class="pattern-attachment-img" style="background-image: url('.$bgImgUrl.')"></div>
+                    <header class="pattern-header">
+                <h1 class="entry-title">'.$this->title.'</h1>
+            </header>
+            </div>
+        ');
+    }
+?>
 <div id="content" class="site-content">
+<?php
+    //文章目录展示以及切换
+    if ( $this->options->postDoc != 'none' && $this->options->postDoc != null ) {
+        getCatalog();
+        if ($this->options->postDoc == 'rightDoc') {
+            echo('<style>#toc-container {right: -260px;}</style>');
+        } else {
+            echo('<style>#toc-container {left: -260px;}</style>');
+        }
+    }
+?>
 	<div id="primary" class="content-area">
 		<main id="main" class="site-main" role="main">
 		<article class="hentry">
@@ -48,17 +64,25 @@
 		<div class="entry-content">
 		<?php
 		    $pattern = '/\<img.*?src\=\"(.*?)\"[^>]*>/i';
-		    $replacement = '<br><a href="$1" alt="'.$this->title.'" title="点击放大图片"><img class="aligncenter" src="$1" title="'.$this->title.'"></a>';
+		    $replacement = '<a href="$1" alt="'.$this->title.'" title="点击放大图片"><img class="aligncenter" src="$1" title="'.$this->title.'"></a>';
 		    echo preg_replace($pattern, $replacement, $this->content);
 		?>
 		</div>
+		<!-- 广告展示 -->
+		<?php
+			if ($this->options->adPostImg){
+				echo '<a href="'.$this->options->adPostkLink.'" target="_blank" rel="nofollow noopener noreferrer">
+						<img style=" width: 100%; border-radius: 5px; margin: 10px 0;" src="'.$this->options->adPostImg.'">
+					  </a>';
+			}
+		?>
 		<!-- 文章底部 -->
 		<footer class="post-footer">
 			<!-- 阅读次数 -->
 			<div class="post-like">
 				<a href="javascript:;" data-action="ding" data-id="58" class="specsZan ">
 					<i class="iconfont">&#xe612;</i>
-					<span class="count"><?php echo Postviews($this); ?></span>
+					<span class="count"><?php echo Postviews($this)>=10000 ? round(Postviews($this)/10000,1) .'万' : Postviews($this);?></span>
 				</a>
 			</div>
 			<!-- 分享按钮 -->

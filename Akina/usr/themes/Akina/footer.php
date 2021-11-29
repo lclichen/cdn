@@ -1,21 +1,38 @@
 <?php if (!defined('__TYPECHO_ROOT_DIR__')) exit; ?>
 <footer id="colophon" class="site-footer" role="contentinfo">
 	<!-- 请尊重作者！至少保留主题名称及其超链接，谢谢！ -->
-	<div id="footer" class="site-info">Copyright © <?php echo date("Y");?> by <a href="<?php $this->options ->siteUrl(); ?>" target="_blank" rel="nofollow"><?php $this->options->title() ?></a> . All rights reserved<span class="sep"> | </span>Theme : <a href="https://zhebk.cn/Web/Akina.html" target="_blank" rel="nofollow">Akina For Typecho</a>
+	<div id="footer" class="site-info">Copyright © <?php echo date("Y");?> by <a href="<?php $this->options ->siteUrl(); ?>" target="_blank" rel="nofollow"><?php $this->options->title() ?></a> - All rights reserved<span class="sep"> | </span>Theme : <a href="https://zhebk.cn/Web/Akina.html" target="_blank" rel="nofollow">Akina For Typecho</a>
 		<div class="footertext">
 			<p><a href="https://beian.miit.gov.cn/" target="_blank" rel="nofollow"><?php $this->options->ICP();?></a></p>
 			<?php if ($this->options->gongan){
 			    echo '
 			    <a target="_blank" href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode='.gonganbeian($this->options->gongan).'" style="display:inline-block;" rel="nofollow noopener noreferrer">
-			    <img src="'.theurl.'images/gongan.png" style="float:left;">
+			    <img src="'.theurl.'images/gongan.png" style="float: left;height: 17px;">
 			    <p style="float:left;height:20px;line-height:20px;margin: 0px 0px 0px 5px;">'.$this->options->gongan.'</p>
 			    </a>
 			    ';
 			}?>
 		</div>
-		<div style="margin-top: 8px;"><font style="font-size:13px"><img style="width:20px;height:20px;margin-bottom:-5px" src="https://icp.gov.moe/images/ico64.png"><a href="https://icp.gov.moe" target="_blank"><span style="color:#ff0000">萌</span><span style="color:#ca7900">I</span><span style="color:#48ab18">C</span><span style="color:#2720ac">P</span><span style="color:#9b17ae">备</span> </a><a href="https://icp.gov.moe/?keyword=20203535" target="_blank"> <span style="color:#ff0000">20</span><span style="color:#ca7900">21</span><span style="color:#48ab18">35</span><span style="color:#2720ac">35</span><span style="color:#f40428">号</span></a></font>
+		<div style="margin-top: 8px;">
+			<font style="font-size:13px">
+			<img style="width:20px;height:20px;margin-bottom:-5px" src="https://i.loli.net/2021/07/16/9qrPLSTB6vXGzN8.png" alt="icon120.png">
+			<a href="https://icp.gov.moe" target="_blank">
+				<span style="color:#ff0000">萌</span>
+				<span style="color:#ca7900">I</span>
+				<span style="color:#48ab18">C</span>
+				<span style="color:#2720ac">P</span>
+				<span style="color:#9b17ae">备</span>
+			</a>
+			<a href="https://icp.gov.moe/?keyword=20213535" target="_blank">
+				<span style="color:#ff0000">20</span>
+				<span style="color:#ca7900">21</span>
+				<span style="color:#48ab18">35</span>
+				<span style="color:#2720ac">35</span>
+				<span style="color:#f40428">号</span>
+			</a>
+			</font>
 		</div>
-	</div>
+		<?php $this->options->jsCode();?>
 	</div>
 </footer>
 <div id="mo-nav">
@@ -38,7 +55,6 @@
 			<ul class="sub-menu">
 				<?php $this->widget('Widget_Contents_Page_List')->to($pages); ?>
 				<?php while($pages->next()): ?>
-					<?php if ($pages->fields->navbar == "hide") continue; ?>
 					<li><a href="<?php $pages->permalink(); ?>"><?php $pages->title(); ?></a></li>
 				<?php endwhile; ?>
 			</ul>

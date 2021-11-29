@@ -8,12 +8,28 @@
 ?>
 <div class="blank"></div>
 <div class="headertop"></div>
-<?php if (array_key_exists('thumbnail',unserialize($this->___fields())) & $this->fields->thumbnail != null): ?>
-	<div class="pattern-center">
-		<div class="pattern-attachment-img" style="background-image: url(<?php $this->fields->thumbnail(); ?>)"></div>
-		<header class="pattern-header"><h1 class="entry-title"><?php $this->title() ?></h1></header>
-	</div>
-<?php endif; ?>
+<?php 
+    if ( $this->fields->radioPostImg != 'none' && $this->fields->radioPostImg != null ) {
+        $bgImgUrl = '';
+        switch ( $this->fields->radioPostImg ) {
+        case 'custom':
+            $bgImgUrl = $this->fields->thumbnail;
+            break;
+        case 'random':
+            $bgImgUrl = theurl.'images/postbg/'.mt_rand(1,3).'.jpg';
+            break;
+        }
+        echo('
+            <div class="pattern-center">
+                <div class="pattern-attachment-img" style="background-image: url('.$bgImgUrl.')"></div>
+                    <header class="pattern-header">
+                <h1 class="entry-title">'.$this->title.'</h1>
+            </header>
+            </div>
+            <style> @media (max-width: 860px){.site-main {padding-top: 30px;}} </style>
+        ');
+    }
+?>
 <div id="content" class="site-content">
 	<div id="primary" class="content-area">
 		<main id="main" class="site-main" role="main">
@@ -22,8 +38,12 @@
 					<h1 class="entry-title"><?php $this->title() ?></h1>
 				</header>
 				<div class="entry-content">
-				    <!--编辑器内容-->
-					<?php $this->content(); ?>
+					<!--编辑器内容-->
+					<?php
+						$pattern = '/\<img.*?src\=\"(.*?)\"[^>]*>/i';
+						$replacement = '<a href="$1" alt="'.$this->title.'" title="点击放大图片"><img class="aligncenter" src="$1" title="'.$this->title.'"></a>';
+						echo preg_replace($pattern, $replacement, $this->content);
+					?>
 	                <!--标签云输出-->
                     <?php $this->widget('Widget_Metas_Tag_Cloud', 'sort=mid&ignoreZeroCount=1&desc=0&limit=0')->to($tags); ?>
                     <?php if($tags->have()): ?>

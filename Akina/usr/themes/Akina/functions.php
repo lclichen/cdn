@@ -39,13 +39,16 @@ echo '<style>
 </style>';
 echo '<span class="themeConfig"><h3>博客信息</h3></span>';
 //博客信息
+    $logo = new Typecho_Widget_Helper_Form_Element_Text('logo', NULL,'images/akina.png', _t('网站logo地址'), _t('默认值images/akina.png，图片位置/usr/themes/Akina/images/akina.png'));
+    $form->addInput($logo);
+	
     $profile = new Typecho_Widget_Helper_Form_Element_Text('profile', NULL,'images/akinadeaava.jpg', _t('博主头像地址'), _t('默认值images/akinadeaava.jpg，图片位置/usr/themes/Akina/images/akinadeaava.jpg'));
     $form->addInput($profile);
 	
-    $wedo = new Typecho_Widget_Helper_Form_Element_Text('wedo', NULL,'images/donate/wedo.jpg', _t('微信收款码'), _t('默认值images/donate/wedo.jpg，图片位置/usr/themes/Akina/images/donate/wedo.jpg'));
+    $wedo = new Typecho_Widget_Helper_Form_Element_Text('wedo', NULL,'images/donate/wedo.png', _t('微信收款码'), _t('默认值images/donate/wedo.png，图片位置/usr/themes/Akina/images/donate/wedo.png'));
     $form->addInput($wedo);
     
-    $alido = new Typecho_Widget_Helper_Form_Element_Text('alido', NULL,'images/donate/alido.jpg', _t('支付宝收款码'), _t('默认值images/donate/alido.jpg，图片位置/usr/themes/Akina/images/donate/alido.jpg'));
+    $alido = new Typecho_Widget_Helper_Form_Element_Text('alido', NULL,'images/donate/alido.png', _t('支付宝收款码'), _t('默认值images/donate/alido.png，图片位置/usr/themes/Akina/images/donate/alido.png'));
     $form->addInput($alido);
 	
     $sub = new Typecho_Widget_Helper_Form_Element_Text('sub', NULL,'个人博客', _t('网站副标题'), _t('默认内容"个人博客"'));
@@ -88,12 +91,22 @@ echo '<span class="themeConfig"><h3>博客信息</h3></span>';
     $Bilibili = new Typecho_Widget_Helper_Form_Element_Text('Bilibili', NULL,'https://www.bilibili.com/', _t('Bilibili地址'), _t('Bilibili主页地址（请规范填写，需https://，http://或者//）'));
     $form->addInput($Bilibili);
 	
+    //网易云音乐
+    $Music = new Typecho_Widget_Helper_Form_Element_Text('Music', NULL,'https://music.163.com/', _t('网易云音乐用户ID'), _t('登陆网页版网易云音乐，点击个人主页。https://music.163.com/#/user/home?id=这里是ID'));
+    $form->addInput($Music);
+	
 //文章推荐
-    $sticky = new Typecho_Widget_Helper_Form_Element_Text('sticky', NULL,NULL, _t('<br><span class="themeConfig"><h3>文章推荐</h3></span>文章置顶'), _t('置顶的文章cid，按照排序输入, 请以半角逗号,或空格分隔'));
+    $sticky = new Typecho_Widget_Helper_Form_Element_Text('sticky', NULL,NULL, _t('<br><span class="themeConfig"><h3>文章推荐</h3></span>文章置顶'), _t('填写文章cid，按照输入顺序显示（请以半角逗号,或空格分隔）'));
     $form->addInput($sticky);
 	
-    $featureCids = new Typecho_Widget_Helper_Form_Element_Text('featureCids', NULL,NULL, _t('聚焦内容'), _t('请以半角逗号,或空格分隔'));
+    $featureCids = new Typecho_Widget_Helper_Form_Element_Text('featureCids', NULL,NULL, _t('聚焦内容'), _t('填写文章cid，按照输入顺序只显示前三个（请以半角逗号,或空格分隔）'));
     $form->addInput($featureCids);
+	
+//广告设置
+    $adPostImg = new Typecho_Widget_Helper_Form_Element_Text('adPostImg', NULL,'', _t('<br><span class="themeConfig"><h3>广告设置</h3></span><div class="info">不填写相关信息时可以隐藏该广告展示</div>文章页广告'), _t('填写广告图片链接'));
+    $form->addInput($adPostImg);
+    $adPostkLink = new Typecho_Widget_Helper_Form_Element_Text('adPostkLink', NULL,'', _t(' '), _t('填写文章页广告超链接'));
+    $form->addInput($adPostkLink);
 	
 //加速设置
     $DNS = new Typecho_Widget_Helper_Form_Element_Text('DNS', NULL,'https://cdn.zhebk.cn', _t('<br><span class="themeConfig"><h3>加速设置</h3></span><div class="info">劣质CDN甚至会拖慢网站的速度，图标异常请自行解决跨域问题。CDN付费用户注意，该操作会让你的钱包遭受不可逆的降维打击。</div>DNS预解析加速'), _t('比如填写引用图片的域名（请规范填写，需https://，http://或者//）'));
@@ -110,11 +123,26 @@ echo '<span class="themeConfig"><h3>博客信息</h3></span>';
     array(
 	'show' => _t('一直显示菜单'),
 	'indexbg' => _t('一直显示首页大图'),
+	'feature' => _t('一直显示聚焦内容'),
 	'page' => _t('使用ajax加载文章'),
 	'xl' => _t('下拉自动加载文章'),
+	'dark' => _t('开启夜间模式(跟随系统)'),
 	),
     array('page'), _t('其他设置'));
     $form->addInput($menu->multiMode());
+	
+    $postDoc = new Typecho_Widget_Helper_Form_Element_Radio('postDoc', array(
+        'leftDoc' => _t('左侧显示'),
+        'rightDoc' => _t('右侧显示'),
+        'none' => _t('不显示')
+        ), 'none', _t('开启文章目录'));
+    $form->addInput($postDoc);
+	
+    $cssCode = new Typecho_Widget_Helper_Form_Element_Textarea('cssCode', null, null, _t('自定义 CSS'), _t('可以方便的自定义博客样式，避免修改源码影响主题模板迭代。(请编写完整的style标签)'));
+    $form->addInput($cssCode);
+    
+    $jsCode = new Typecho_Widget_Helper_Form_Element_Textarea('jsCode', null, null, _t('自定义 JS'), _t('可以方便的添加js代码，统计代码可以填写到这里。(请编写完整的script标签)'));
+    $form->addInput($jsCode);
 }
 //判断本地、cdn和自定义资源加载逻辑
 function authorProfile($src,$theurl){
@@ -148,21 +176,14 @@ function Postviews($archive) {
     }
     return $exist;
 }
-//获取文章第一张图片
-function img_postthumb($content) {
-	preg_match_all("/\<img.*?src\=\"(.*?)\"[^>]*>/i", $content, $thumbUrl);  //通过正则式获取图片地址
-	$img_counter = count($thumbUrl[0]);  //一个src地址的计数器  
-	switch ($img_counter > 0) {
-		case $allPics = 1:
-			$img_src = $thumbUrl[1][0];  //将赋值给img_src
-			return $img_src;  //当找到一个src地址的时候，输出缩略图
-			break;
-		default:
-			return "";  //没找到(默认情况下)，不输出任何内容
-   };
-}
 // 缩略图设置
 function themeFields($layout){
+    $radioPostImg = new Typecho_Widget_Helper_Form_Element_Radio('radioPostImg', array(
+        'custom' => _t('自定义'),
+        'random' => _t('随机图'),
+        'none' => _t('不显示')
+        ), 'none', _t('开启文章/页面缩略图'));
+    $layout->addItem($radioPostImg);
     $thumbnail = new Typecho_Widget_Helper_Form_Element_Text('thumbnail', null, null, _t('文章/页面缩略图Url'), _t('需要带上http(s)://'));
     $icon = new Typecho_Widget_Helper_Form_Element_Text('icon', null, null, _t('文章/页面首页图标Url'), _t('需要带上http(s)://'));
     $dtMode = new Typecho_Widget_Helper_Form_Element_Radio('dtMode', array(true => _t('开启'), false => _t('关闭')), false, _t('文章动态模式'), _t('该文章在列表展示方式为动态模式'));
@@ -253,6 +274,10 @@ function themeInit($archive){
 	Helper::options()->commentsPageDisplay = 'first';	             //在列出时将第一页作为默认显示
 	Helper::options()->commentsOrder = 'DESC';                       //将较新的的评论显示在前面
 	Helper::options()->commentsHTMLTagAllowed = '<img src="">';      //评论允许img标签
+	//文章目录
+	if ($archive->is('single')) {
+        $archive->content = createCatalog($archive->content);
+    }
 }
 //评论添加回复@标记
 function get_commentReply_at($coid)
@@ -283,6 +308,60 @@ function gonganbeian($str){
     }else{
         return $result;
     }
+}
+//文章目录
+//来源 https://www.offodd.com/76.html
+//为文章标题添加锚点
+function createCatalog($obj) {    
+    global $catalog;
+    global $catalog_count;
+    $catalog = array();
+    $catalog_count = 0;
+    $obj = preg_replace_callback('/<h([1-3])(.*?)>(.*?)<\/h\1>/i', function($obj) {
+        global $catalog;
+        global $catalog_count;
+        $catalog_count ++;
+        $catalog[] = array('text' => trim(strip_tags($obj[3])), 'depth' => $obj[1], 'count' => $catalog_count);
+        return '<h'.$obj[1].$obj[2].'><a name="cl-'.$catalog_count.'"></a>'.$obj[3].'</h'.$obj[1].'>';
+    }, $obj);
+    return $obj;
+}
+//输出文章目录容器
+function getCatalog() {
+    global $catalog;
+    $index = '';
+    if ($catalog) {
+        $index = '<ul>'."\n";
+        $prev_depth = '';
+        $to_depth = 0;
+        foreach($catalog as $catalog_item) {
+            $catalog_depth = $catalog_item['depth'];
+            if ($prev_depth) {
+                if ($catalog_depth == $prev_depth) {
+                    $index .= '</li>'."\n";
+                } elseif ($catalog_depth > $prev_depth) {
+                    $to_depth++;
+                    $index .= '<ul>'."\n";
+                } else {
+                    $to_depth2 = ($to_depth > ($prev_depth - $catalog_depth)) ? ($prev_depth - $catalog_depth) : $to_depth;
+                    if ($to_depth2) {
+                        for ($i=0; $i<$to_depth2; $i++) {
+                            $index .= '</li>'."\n".'</ul>'."\n";
+                            $to_depth--;
+                        }
+                    }
+                    $index .= '</li>';
+                }
+            }
+            $index .= '<li><a href="#cl-'.$catalog_item['count'].'">'.$catalog_item['text'].'</a>';
+            $prev_depth = $catalog_item['depth'];
+        }
+        for ($i=0; $i<=$to_depth; $i++) {
+            $index .= '</li>'."\n".'</ul>'."\n";
+        }
+    $index = '<div id="toc-container">'."\n".'<div id="toc">'."\n".'<strong>文章目录</strong>'."\n".$index.'</div>'."\n".'</div>'."\n";
+    }
+    echo $index;
 }
 //随机文章
 function getRandomPosts($limit = 10){
