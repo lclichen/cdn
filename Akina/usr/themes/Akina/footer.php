@@ -13,25 +13,7 @@
 			    ';
 			}?>
 		</div>
-		<div style="margin-top: 8px;">
-			<font style="font-size:13px">
-			<img style="width:20px;height:20px;margin-bottom:-5px" src="https://i.loli.net/2021/07/16/9qrPLSTB6vXGzN8.png" alt="icon120.png">
-			<a href="https://icp.gov.moe" target="_blank">
-				<span style="color:#ff0000">萌</span>
-				<span style="color:#ca7900">I</span>
-				<span style="color:#48ab18">C</span>
-				<span style="color:#2720ac">P</span>
-				<span style="color:#9b17ae">备</span>
-			</a>
-			<a href="https://icp.gov.moe/?keyword=20213535" target="_blank">
-				<span style="color:#ff0000">20</span>
-				<span style="color:#ca7900">21</span>
-				<span style="color:#48ab18">35</span>
-				<span style="color:#2720ac">35</span>
-				<span style="color:#f40428">号</span>
-			</a>
-			</font>
-		</div>
+		<div style="margin-top: 8px;"><font style="font-size:13px"><img style="width:20px;height:20px;margin-bottom:-5px" src="https://i.loli.net/2021/07/16/9qrPLSTB6vXGzN8.png" alt="icon120.png"><a href="https://icp.gov.moe" target="_blank"><span style="color:#ff0000">萌</span><span style="color:#ca7900">I</span><span style="color:#48ab18">C</span><span style="color:#2720ac">P</span><span style="color:#9b17ae">备</span></a><a href="https://icp.gov.moe/?keyword=20213535" target="_blank"><span style="color:#ff0000">20</span><span style="color:#ca7900">21</span><span style="color:#48ab18">35</span><span style="color:#2720ac">35</span><span style="color:#f40428">号</span></a></font></div>
 		<?php $this->options->jsCode();?>
 	</div>
 </footer>
@@ -78,8 +60,14 @@
 	if (!!window.ActiveXObject || "ActiveXObject" in window) { //is IE?
 	  alert('请抛弃万恶的IE系列浏览器吧。');
 	}
-	//判断下拉加载
-	<?php if (!empty($this->options->menu) && in_array('xl', $this->options->menu)): ?>var xl = "1";<?php else: ?> var xl = "0";<?php endif; ?>
+	<?php
+    //判断下拉加载
+    if (!empty($this->options->menu) && in_array('xl', $this->options->menu)) {$xl = 1;} else {$xl = 0;}
+    // 判断导航栏是否透明
+    if (!empty($this->options->menu) && in_array('transparent', $this->options->menu)) {$transparent = 1;} else {$transparent = 0;}
+  ?>
+  var xl = <?php echo $xl ?>;
+  var transparent = <?php echo $transparent ?>;
 </script>
 <?php echo '
 <script type="text/javascript" src="'.theurl.'js/jquery.min.js"></script>
